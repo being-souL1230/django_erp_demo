@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Management</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      padding: 30px;
+      color: #fff;
+    }
+
+    .glass-container {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 16px;
+      padding: 30px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-info {
+      text-align: right;
+      margin-bottom: 20px;
+      font-size: 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-info a {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .user-info a:hover {
+      color: #7dd3fc;
+      transform: translateX(2px);
+    }
+
+    .search-form {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-form input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .search-form input[type="text"]:focus {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+    }
+
+    .search-form input[type="submit"] {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-form input[type="submit"]:hover {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    }
+
+    h2 {
+      margin: 20px 0;
+      color: #e0f2fe;
+      font-weight: 600;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 i {
+      color: #38bdf8;
+    }
+
+    .search-results {
+      margin-bottom: 20px;
+      padding: 10px;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #38bdf8;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    th {
+      background-color: rgba(2, 132, 199, 0.3);
+      color: #e0f2fe;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .student-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .student-name i {
+      color: #38bdf8;
+      font-size: 18px;
+    }
+
+    .student-name a {
+      color: #fff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .student-name a:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+
+    .action-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .action-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .action-links a.edit {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .action-links a.edit:hover {
+      background: rgba(74, 222, 128, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .action-links a.delete {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .action-links a.delete:hover {
+      background: rgba(248, 113, 113, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: #475569;
+    }
+
+    .pagination {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .pagination a,
+    .pagination strong {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      margin: 0 5px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      min-width: 40px;
+    }
+
+    .pagination a:hover {
+      background: #38bdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(56, 189, 248, 0.3);
+    }
+
+    .pagination strong {
+      background: #0ea5e9;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+    }
+
+    .pagination a i {
+      margin: 0 5px;
+    }
+    /* Pulse animation for buttons */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .search-form input[type="submit"]:hover,
+    .action-links a:hover {
+      animation: pulse 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-container">
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span>Welcome, {{ user.username }}</span> |
+      <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+
+    <form class="search-form" method="GET" action="">
+      <input type="text" name="q" placeholder="Search students by name..." value="{{ request.GET.q }}" />
+      <input type="submit" value="Search" />
+      <i class="fas fa-search"></i>
+    </form>
+
+    {% if request.GET.q %}
+      <div class="search-results">
+        <i class="fas fa-search"></i> Search results for: <strong>{{ request.GET.q }}</strong>
+      </div>
+    {% endif %}
+
+    <h2>
+      <i class="fas fa-users"></i>
+      Students List
+    </h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th><i class="fas fa-user-graduate"></i> Name</th>
+          <th><i class="fas fa-cogs"></i> Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td>
+            <div class="student-name">
+              <i class="fas fa-user"></i>
+              <a href="{% url 'student_detail' student.id %}">{{ student.name }}</a>
+            </div>
+          </td>
+          <td class="action-links">
+            <a href="{% url 'update_student' student.id %}" class="edit">
+              <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="{% url 'delete_student' student.id %}" class="delete">
+              <i class="fas fa-trash-alt"></i> Delete
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="2">
+            <div class="empty-state">
+              <i class="fas fa-user-slash"></i>
+              <p>No students found. {% if request.GET.q %}Try a different search term.{% else %}Add a new student to get started.{% endif %}</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      {% if students.has_other_pages %}
+      <div>
+        {% if students.has_previous %}
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ students.previous_page_number }}">
+            <i class="fas fa-chevron-left"></i> Previous
+          </a>
+        {% endif %}
+
+        {% for num in students.paginator.page_range %}
+          {% if students.number == num %}
+            <strong>{{ num }}</strong>
+          {% elif num > students.number|add:'-3' and num < students.number|add:'3' %}
+            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if students.has_next %}
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ students.next_page_number }}">
+            Next <i class="fas fa-chevron-right"></i>
+          </a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    // Add subtle animation to table rows when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('tbody tr');
+      rows.forEach((row, index) => {
+        row.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+  </script>
+</body>
+</html>

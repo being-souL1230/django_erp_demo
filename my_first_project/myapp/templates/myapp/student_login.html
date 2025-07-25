@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1e1e2f 0%, #2a2a4a 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .outer-container {
+      background: linear-gradient(145deg, #25253f, #18182a);
+      padding: 3rem;
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 
+                  inset 0 2px 5px rgba(255, 255, 255, 0.05);
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+    }
+    
+    .container {
+      background: linear-gradient(145deg, #2a2a4a, #1e1e2f);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+                  inset 0 2px 5px rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      animation: shiny 3s linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    @keyframes shiny {
+      0% { transform: translate(-50%, -50%) rotate(45deg); }
+      100% { transform: translate(50%, 50%) rotate(45deg); }
+    }
+    
+    h2 {
+      color: #e0e0ff;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #353557;
+      color: #e0e0ff;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    input::placeholder {
+      color: #8888a0;
+    }
+    
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3),
+                  inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      transform: scale(1.02);
+    }
+    
+    input[type="submit"] {
+      background: linear-gradient(90deg, #667eea, #8a4af3);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    
+    input[type="submit"]::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+    
+    input[type="submit"]:hover::before {
+      left: 100%;
+    }
+    
+    input[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+    
+    .alert {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      background: #4a1e1e;
+      color: #ff6b6b;
+      font-size: 14px;
+      border: 1px solid #ff6b6b;
+      animation: shake 0.4s ease-in-out;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+    
+    .switch-link {
+      display: block;
+      margin-top: 1.5rem;
+      color: #a0a0cc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .switch-link:hover {
+      color: #667eea;
+      text-decoration: none;
+      transform: translateX(5px);
+    }
+    
+    .logo {
+      width: 80px;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    
+    .input-icon {
+      position: relative;
+    }
+    
+    .input-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0a0cc;
+      transition: color 0.3s ease;
+    }
+    
+    input:focus + i {
+      color: #667eea;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="outer-container">
+  <div class="container">
+    <!-- You can add a logo here -->
+    <!-- <img src="logo.png" alt="University Logo" class="logo"> -->
+    
+    <h2>Student Login</h2>
+    
+    {% for msg in messages %}
+    <div class="alert">
+      <i class="fas fa-exclamation-circle"></i> {{ msg }}
+    </div>
+    {% endfor %}
+    
+    <form method="POST">
+      {% csrf_token %}
+      
+      <div class="form-group input-icon">
+        <input type="email" name="email" placeholder="Student Email" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+      
+      <div class="form-group input-icon">
+        <input type="password" name="password" placeholder="Password" required>
+        <i class="fas fa-lock"></i>
+      </div>
+      
+      <input type="submit" value="Login">
+    </form>
+    
+    <a href="{% url 'faculty_login' %}" class="switch-link">
+      <i class="fas fa-chalkboard-teacher"></i> Faculty Login
+    </a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Update Student</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+        
+        :root {
+            --neon-green: #0f0;
+            --neon-purple: #b300ff;
+            --neon-blue: #00ccff;
+            --dark-bg: #111;
+            --glass-bg: rgba(15, 15, 15, 0.7);
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(179, 0, 255, 0.05) 0%, transparent 20%),
+                linear-gradient(to bottom right, #111, #222);
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(0, 255, 0, 0.3),
+                inset 0 0 15px rgba(0, 255, 0, 0.1);
+            padding: 2.5rem;
+            width: 450px;
+            max-width: 90%;
+            transition: all 0.3s ease;
+            animation: glow-pulse 4s infinite alternate;
+        }
+        
+        .glass-card:hover {
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                0 0 25px rgba(0, 255, 0, 0.5),
+                inset 0 0 20px rgba(0, 255, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            width: 100%;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 5px;
+            color: var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        input[type="submit"] {
+            background: linear-gradient(45deg, var(--neon-green), #00b300);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        input[type="submit"]:hover {
+            background: linear-gradient(45deg, #00ff40, var(--neon-green));
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        input[type="submit"]:active {
+            transform: translateY(0);
+        }
+        
+        input[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        input[type="submit"]:hover::before {
+            left: 100%;
+        }
+        
+        .btn-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        
+        .btn-link:hover {
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px rgba(179, 0, 255, 0.5);
+        }
+        
+        .btn-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--neon-purple);
+            transition: width 0.3s ease;
+        }
+        
+        .btn-link:hover::after {
+            width: 100%;
+        }
+        
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 
+                    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+                    0 0 15px rgba(0, 255, 0, 0.3),
+                    inset 0 0 15px rgba(0, 255, 0, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+                    0 0 20px rgba(0, 255, 0, 0.5),
+                    inset 0 0 20px rgba(0, 255, 0, 0.2);
+            }
+        }
+        
+        /* Cyberpunk scanline effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(rgba(0, 255, 0, 0.03) 0%, transparent 2px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 0%, transparent 2px);
+            background-size: 100% 4px, 4px 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    {% block title %}Update Student{% endblock %}
+    {% block content %}
+    <div class="glass-card">
+        <h2>UPDATE STUDENT RECORD</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-warning mt-2" value="UPDATE">
+        </form>
+        <a href="{% url 'home' %}" class="btn-link">BACK TO DASHBOARD</a>
+    </div>
+    {% endblock %}
+</body>
+</html>

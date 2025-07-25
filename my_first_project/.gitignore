@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Virtual Environment
+venv/
+
+# VS Code settings (optional)
+.vscode/

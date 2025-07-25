@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Upload Assignment</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Select Student:</label><br>
+    <select name="student">
+        {% for student in students %}
+        <option value="{{ student.id }}">{{ student.name }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label>Select File:</label><br>
+    <input type="file" name="file"><br><br>
+    <input type="submit" value="Upload">
+</form>
+<a href="{% url 'assignment_list' %}">View All Assignments</a>
+</body>
+</html>
