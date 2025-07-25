@@ -73,32 +73,6 @@ python manage.py runserver
 Now visit:
 http://127.0.0.1:8000/
 
-### Project Structure
-
-django_erp_demo/
-│
-├── manage.py
-├── requirements.txt
-├── .gitignore
-├── db.sqlite3
-├── venv/ (ignored)
-│
-├── my_first_project/
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-│
-└── myapp/
-    ├── migrations/
-    ├── templates/
-    ├── static/
-    ├── models.py
-    ├── views.py
-    ├── urls.py
-    └── forms.py
-
  ###Future Features (Planned)
  
 - Assignment Upload/Track
