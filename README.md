@@ -73,7 +73,7 @@ python manage.py runserver
 Now visit:
 http://127.0.0.1:8000/
 
- ###Future Features (Planned)
+ ### Future Features (Planned)
  
 - Assignment Upload/Track
 
